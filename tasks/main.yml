@@ -1,0 +1,34 @@
+---
+- name: Assert that variables are defined
+  assert:
+    that:
+      - openproject_secret_key_base is defined
+
+- name: Create the openproject dirs
+  file:
+    state: directory
+    path: '{{ openproject_dir }}/config'
+    recurse: true
+
+- name: Template the openproject config file
+  notify: restart_openproject
+  copy:
+    content: '{{ openproject_config }}'
+    dest: '{{ openproject_dir }}/config/configuration.yml'
+
+- name: Pull the openproject all-in-one image
+  docker_image:
+    source: pull
+    name: '{{ openproject_image }}'
+
+- name: Start the openproject container
+  notify: health_check_openproject
+  docker_container:
+    image: '{{ openproject_image }}'
+    name: '{{ openproject_container_name }}'
+    restart_policy: unless-stopped
+    networks: '{{ openproject_docker_networks }}'
+    volumes: '{{ openproject_docker_volumes }}'
+    ports: '{{ openproject_docker_ports }}'
+    env:
+      SECRET_KEY_BASE: '{{ openproject_secret_key_base }}'

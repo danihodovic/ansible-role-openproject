@@ -1,0 +1,17 @@
+---
+- name: Restart openproject
+  listen: restart_openproject
+  notify: health_check_openproject
+  docker_container:
+    name: '{{ openproject_container_name }}'
+    restart: true
+
+- name: Health check openproject
+  listen: health_check_openproject
+  uri:
+    url: http://localhost/api/v3
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 300
+  delay: 1

@@ -1,0 +1,18 @@
+---
+openproject_dir: /opt/openproject
+openproject_image: openproject/community
+openproject_container_name: openproject
+openproject_docker_networks: []
+openproject_docker_volumes:
+  - '{{ openproject_dir}}/config:/app/openproject/config'
+  - '{{ openproject_dir }}/pgdata:/var/openproject/pgdata'
+  - '{{ openproject_dir }}/assets:/var/openproject/assets'
+openproject_docker_ports: []
+openproject_config: |
+  default:
+    log_level: info
+    rails_force_ssl: false
+    session_store: :cache_store
+    email_delivery_method: :smtp
+    smtp_address: "localhost"
+    smtp_port: 25

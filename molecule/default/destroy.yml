@@ -1,0 +1,14 @@
+---
+- name: Destroy
+  hosts: localhost
+  tasks:
+    - name: Remove the container
+      docker_container:
+        name: openproject
+        state: absent
+
+    - name: Delete the dir
+      become: true
+      file:
+        state: absent
+        path: '{{ openproject_dir }}'

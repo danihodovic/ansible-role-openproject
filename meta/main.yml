@@ -1,0 +1,8 @@
+galaxy_info:
+  author: Dani Hodovic
+  description: An Ansible role that installs OpenProject as a Docker container
+  company: Depode LTD (https://depode.com)
+  license: MIT
+  min_ansible_version: 2.9
+  galaxy_tags: [openproject, ansible, docker, project-management]
+dependencies: []

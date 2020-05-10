@@ -1,0 +1,19 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: delegated
+platforms:
+  - name: instance
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: ../../.venv/bin/python
+      stdout_callback: yaml
+  inventory:
+    group_vars:
+      all:
+        openproject_dir: /tmp/ansible-role-openproject
+verifier:
+  name: ansible
