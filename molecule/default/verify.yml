@@ -10,8 +10,17 @@
   - set_fact:
       config_contents: '{{ config_contents_b64.content | b64decode | from_yaml }}'
 
-  - debug: var=config_contents
-
-  - name: Example assertion
+  - name: Assert that the config file is set
     assert:
       that: 'config_contents.default.disable_password_choice is true'
+
+  - name: Assert that it uses docker networks provided
+    register: container_info
+    docker_container_info:
+      name: openproject
+
+  - name: Assert docker container settings
+    assert:
+      that:
+        - "'openproject' in container_info.container.NetworkSettings.Networks"
+        - 'container_info.container.HostConfig.RestartPolicy.Name == "unless-stopped"'

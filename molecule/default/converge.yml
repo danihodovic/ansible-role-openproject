@@ -5,16 +5,21 @@
     - debug:
         msg: 'Temp dir in {{ openproject_dir }}'
 
+    - name: Create docker network
+      docker_network:
+        name: openproject
+
     - name: Include ansible-role-openproject
       include_role:
         name: ansible-role-openproject
       vars:
         openproject_secret_key_base: secret
         openproject_docker_ports: ['80:80']
+        openproject_docker_networks:
+          - name: openproject
         openproject_config: |
           default:
             disable_password_choice: true
-
 
     - name: Wait for openproject to boot
       uri:

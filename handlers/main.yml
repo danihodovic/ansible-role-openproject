@@ -8,10 +8,8 @@
 
 - name: Health check openproject
   listen: health_check_openproject
-  uri:
-    url: http://localhost/api/v3
-    status_code: 200
+  shell: 'docker exec {{ openproject_container_name }} curl localhost/api/v3 -s'
   register: result
-  until: result.status == 200
+  until: result.rc == 0
   retries: 300
   delay: 1
