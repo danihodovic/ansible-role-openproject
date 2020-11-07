@@ -1,0 +1,27 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: test
+    image: python:3.9
+    environment:
+      DO_API_TOKEN:
+        from_secret: DO_API_TOKEN
+      USER: root
+      ANSIBLE_FORCE_COLOR: '1'
+    volumes:
+      - name: cache
+        path: '/usr/local/lib/python3.9/site-packages'
+    commands:
+      - pip install -r requirements.txt
+      - ln -s $PWD /drone/ansible-role-consul
+      - molecule test
+      - black --check .
+      - isort --check-only .
+
+  - name: fail-on-debug-instruction
+    image: alpine
+    commands:
+      - grep '|| sleep' .drone.yml && exit 1
