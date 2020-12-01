@@ -1,6 +1,8 @@
 # Ansible OpenProject [![Build Status](https://travis-ci.org/danihodovic/ansible-role-openproject.svg?branch=master)](https://travis-ci.org/danihodovic/ansible-role-openproject)
 
-An opinionated role that installs OpenProject as a single Docker container.
+An opinionated role that installs OpenProject as a single Docker container. If
+you're looking for a role that installs it as multiple containers -
+https://github.com/abate/ansible-role-openproject.
 
 ### Role Variables
 
